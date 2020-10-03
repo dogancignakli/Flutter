@@ -81,12 +81,12 @@ class _EntryScreen extends State<EntryScreen> {
       ),
     );
   }
+
   void _sendAccountInfotoMain (BuildContext ctx){
     acc.setAccountName = accountNameController.text;
     acc.setUserName = userNameController.text;
     acc.setPasswords = passWordController.text;
     Navigator.pop(ctx,acc);
-
     debugPrint("Hello1");
 
   }

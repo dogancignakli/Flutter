@@ -45,20 +45,20 @@ class _MainScreenState extends State<MainScreen> {
           return Card(
             child: ListTile(
               leading: Icon(Icons.lock),
-              title: Text("Hesap: ${acc.accountName}"),
+              title: Text("Hesap: ${accList[accList.length-1].accountName}"),
               subtitle: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text("Kullancı Adı:${acc.userName}"),
+                  Text("Kullancı Adı:${accList[accList.length-1].userName}"),
                   SizedBox(width: 20),
-                  Text("Şifre:${acc.password}"),
+                  Text("Şifre:${accList[accList.length-1].password}"),
                 ],
               ),
             ),
           );
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),
-        itemCount: 30,
+        itemCount: accList.length,
       ),
     );
   }
@@ -67,7 +67,14 @@ class _MainScreenState extends State<MainScreen> {
     final Accounts result = await Navigator.push(
         ctx, MaterialPageRoute(builder: (ctx) => EntryScreen()));
     setState(() {
-      accList.add(result);
+      if(result == null)
+        {
+          //Fluttertoast.showToast(msg: "Kayıt Bulunamadı.");
+        }
+      else {
+        accList.add(result);
+
+      }
 
 
     });
