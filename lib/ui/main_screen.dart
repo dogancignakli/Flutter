@@ -22,6 +22,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   List accList = [];
+  int indexList;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +41,13 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: ListView.separated(
         itemBuilder: (BuildContext context, int index) {
-          return Card(
+          indexList = index;
 
+          return Card(
             child: ListTile(
-              onLongPress:(){ Toast.show("msg", context);},
+              onLongPress: () {
+                Toast.show("msg", context);
+              },
               onTap: () {
                 return showDialog(
                     context: context,
@@ -65,18 +69,20 @@ class _MainScreenState extends State<MainScreen> {
                       );
                     });
               },
-              trailing: _EntryPopUpMenu(),
-              leading:Container(
+              trailing: _EntryPopUpMenu(index),
+              leading: Container(
                 padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                child: Icon(Icons.lock,size: 25,color: Colors.blue,),
+                child: Icon(
+                  Icons.lock,
+                  size: 25,
+                  color: Colors.blue,
+                ),
               ),
               title: Text("Hesap: ${accList[index].accountName}"),
-
               subtitle: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text("Kullancı Adı:${accList[index].userName}"),
-
                 ],
               ),
             ),
@@ -93,64 +99,65 @@ class _MainScreenState extends State<MainScreen> {
         ctx, MaterialPageRoute(builder: (ctx) => EntryScreen()));
     setState(() {
       if (result == null) {
-        //Fluttertoast.showToast(msg: "Kayıt Bulunamadı.");
       } else {
-        // Accounts acc = new Accounts("", "", "");
-        // acc.setAccountName= result.accountName;
-        // acc.setPasswords = result.password;
-        // acc.setUserName = result.userName;
         accList.add(result);
       }
     });
   }
 
+  void _deleteEntry(int index) {
+    setState(() {
+      accList.removeAt(index);
 
-  void _deleteEntry() {}
-
-  void _editEntry() {}
-  Widget _EntryPopUpMenu() {
-    return PopupMenuButton(
-        onSelected: (value) {
-          switch(value){
-            case 1: {
-              Toast.show("Selection"+value.toString(), context);
-
-            }
-            break;
-            case 2: {
-              Toast.show("Selection"+value.toString(), context);
-
-            }
-            break;
-          }
-
-        },
-        itemBuilder: (context) => [
-          PopupMenuItem(
-              value: 1,
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                    child: Icon(Icons.delete),
-                  ),
-                  Text('Sil')
-                ],
-              )),
-          PopupMenuItem(
-              value: 2,
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                    child: Icon(Icons.edit),
-                  ),
-                  Text('Düzenle')
-                ],
-              )),
-
-        ]);
+    });
   }
 
-}
+  void _editEntry() {}
 
+  Widget _EntryPopUpMenu(int index) {
+    return PopupMenuButton(
+        icon: Icon(
+          Icons.settings,
+          color: Colors.blue,
+        ),
+        onSelected: (value) {
+          switch (value) {
+            case 1:
+              {
+                Toast.show("Selection " + value.toString(), context);
+                _deleteEntry(index);
+              }
+              break;
+            case 2:
+              {
+                Toast.show("Selection" + value.toString(), context);
+              }
+              break;
+          }
+        },
+        itemBuilder: (context) => [
+              PopupMenuItem(
+                  value: 1,
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                        child: Icon(Icons.delete),
+                      ),
+                      Text('Sil')
+                    ],
+                  )),
+              PopupMenuItem(
+                  value: 2,
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                        child: Icon(Icons.edit),
+                      ),
+                      Text('Düzenle')
+                    ],
+                  )),
+            ]);
+  }
+}
