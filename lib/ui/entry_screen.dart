@@ -32,7 +32,7 @@ class _EntryScreen extends State<EntryScreen> {
     password = passWordController.text;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Şifre Ekleme Ekranı"),
+        title: Text("Şifre Ekle"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

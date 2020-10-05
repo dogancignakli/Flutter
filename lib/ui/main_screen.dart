@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
-
 import 'package:password_manager/ui/entry_screen.dart';
 
 class MasterScreen extends StatelessWidget {
@@ -30,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Şifre Yöneticisi"),
+        title: Text("Şifreler"),
         actions: <Widget>[
           IconButton(
               icon: const Icon(Icons.add),
@@ -112,7 +111,14 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  void _editEntry() {}
+    _sendDataToEntryScreen(BuildContext ctx,int index) async{
+      var _editedValue = await Navigator.push(ctx,MaterialPageRoute(builder: (ctx)=>EntryScreen()));
+      setState(() {
+        accList[index] = _editedValue;
+      });
+
+    }
+
 
   Widget _EntryPopUpMenu(int index) {
     return PopupMenuButton(
@@ -131,6 +137,8 @@ class _MainScreenState extends State<MainScreen> {
             case 2:
               {
                 Toast.show("Selection" + value.toString(), context);
+                _sendDataToEntryScreen(context, index);
+
               }
               break;
           }
